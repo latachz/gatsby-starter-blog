@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useState } from "react"
 import { Link, graphql } from "gatsby"
 
 import Layout from "../components/layout"
@@ -6,13 +6,49 @@ import SEO from "../components/seo"
 
 const BlogIndex = ({ data, location }) => {
   const siteTitle = data.site.siteMetadata?.title || `Title`
-  const songs = data.allMarkdownRemark.nodes
+  const allSongs = data.allMarkdownRemark.edges
+
+  const emptyQuery = ""
+
+  const [state, setState] = useState({
+    filteredData: [],
+    query: emptyQuery,
+  })
+
+  const handleInputChange = event => {
+    const query = event.target.value
+
+    const songs = data.allMarkdownRemark.edges || []
+
+    const filteredData = songs.filter(song => {
+      const { title } = song.node.frontmatter
+      return (
+        title.toLowerCase().includes(query.toLowerCase())
+      )
+    })
+
+    setState({
+      query,
+      filteredData,
+    })
+  }
+
+  const { filteredData, query } = state
+  const hasSearchResults = filteredData && query !== emptyQuery
+  const songs = hasSearchResults ? filteredData : allSongs
 
   if (songs.length === 0) {
     return (
       <Layout location={location} title={siteTitle}>
         <SEO title="All posts" />
-        <p>
+        <input
+          type="text"
+          aria-label="Search"
+          placeholder="Szukaj..."
+          onChange={handleInputChange}
+          className="search-input"
+        />
+        <p style={{ marginTop: 20 }}>
           Songs not found
         </p>
       </Layout>
@@ -22,34 +58,36 @@ const BlogIndex = ({ data, location }) => {
   return (
     <Layout location={location} title={siteTitle}>
       <SEO title="All posts" />
+      <input
+        type="text"
+        aria-label="Search"
+        placeholder="Szukaj..."
+        onChange={handleInputChange}
+        className="search-input"
+      />
       <ol style={{ listStyle: `none` }}>
-        {songs.map(song => {
-          const title = song.frontmatter.title || song.fields.slug
+        {songs.map(({ node }) => {
+          const { excerpt } = node
+          const { slug } = node.fields
+          const { title, date, description } = node.frontmatter
 
           return (
-            <li key={song.fields.slug}>
-              <article
-                className="post-list-item"
-                itemScope
-                itemType="http://schema.org/Article"
-              >
+            <li key={slug}>
+              <article>
                 <header>
                   <h2>
-                    <Link to={song.fields.slug} itemProp="url">
-                      <span itemProp="headline">{title}</span>
-                    </Link>
+                    <Link to={slug}>{title}</Link>
                   </h2>
-                  <small>{song.frontmatter.date}</small>
+                  <p>{date}</p>
                 </header>
                 <section>
                   <p
                     dangerouslySetInnerHTML={{
-                      __html: song.frontmatter.description || song.excerpt,
+                      __html: description || excerpt,
                     }}
-                    itemProp="description"
                   />
                 </section>
-              </article>
+                </article>
             </li>
           )
         })}
@@ -68,15 +106,18 @@ export const pageQuery = graphql`
       }
     }
     allMarkdownRemark(sort: { fields: [frontmatter___date], order: DESC }) {
-      nodes {
-        excerpt
-        fields {
-          slug
-        }
-        frontmatter {
-          date(formatString: "MMMM DD, YYYY")
-          title
-          description
+      edges {
+        node {
+          excerpt(pruneLength: 200)
+          id
+          frontmatter {
+            title
+            description
+            date(formatString: "MMMM DD, YYYY")
+          }
+          fields {
+            slug
+          }
         }
       }
     }
