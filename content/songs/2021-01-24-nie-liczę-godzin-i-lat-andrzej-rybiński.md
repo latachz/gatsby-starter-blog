@@ -3,6 +3,12 @@ layout: blog
 title: Nie liczę godzin i lat - Andrzej Rybiński
 date: 2021-01-24T20:01:07.651Z
 ---
+**Intro**
+
+**G Em Am7 D7 A7**
+
+</br>
+
 wschodami gwiazd i zachodami 
 
 odmierzam czas liści kolorami 
