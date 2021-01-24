@@ -1,5 +1,6 @@
 backend:
   name: git-gateway
+  repo: latachz/latachz-keyboard
   branch: master
 
 media_folder: "images/uploads"
