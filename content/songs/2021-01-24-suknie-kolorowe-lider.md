@@ -66,3 +66,5 @@ Wirują pary rozbawione / **G**
 Jak kwiaty suknie kolorowe / **C F**
 
 Fruwają w tańcu jak szalone / 2 **C**
+
+</br>
