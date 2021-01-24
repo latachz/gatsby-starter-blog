@@ -327,6 +327,20 @@ a:focus {
   border-bottom: 2px solid #000;
 }
 
+.start-button {
+  outline: none;
+  border: none;
+  background: #000;
+  border-radius: 15px;
+  padding: 10px;
+  color: #fff;
+  margin-bottom: 20px;
+}
+
+.start-button:hover {
+  cursor: pointer;
+}
+
 /* Media queries */
 
 @media (max-width: 42rem) {

@@ -1,4 +1,4 @@
-import React from "react"
+import React, { useEffect, useState } from "react"
 import { Link, graphql } from "gatsby"
 
 import Layout from "../components/layout"
@@ -8,6 +8,25 @@ const BlogPostTemplate = ({ data, location }) => {
   const post = data.markdownRemark
   const siteTitle = data.site.siteMetadata?.title || `Title`
   const { previous, next } = data
+  const [scrollValue, setScrollValue] = useState(0);
+
+  const handleStart = e => {
+    setScrollValue(15);
+  }
+
+
+  useEffect(() => {
+    setInterval(() => {
+          window.scrollBy({
+            top: scrollValue,
+            left: 0,
+            behavior : "smooth"
+          })
+
+      }, 1000);
+
+  }, [scrollValue])
+
 
   return (
     <Layout location={location} title={siteTitle}>
@@ -15,6 +34,7 @@ const BlogPostTemplate = ({ data, location }) => {
         title={post.frontmatter.title}
         description={post.frontmatter.description || post.excerpt}
       />
+
       <article
         className="blog-post"
         itemScope
@@ -23,13 +43,16 @@ const BlogPostTemplate = ({ data, location }) => {
         <header>
           <h1 itemProp="headline">{post.frontmatter.title}</h1>
           <p>{post.frontmatter.date}</p>
+          <button className="start-button" onClick={handleStart}>Start scroll</button>
+          {/* <button onClick={handleStop}>Stop scroll</button> */}
         </header>
         <section
           dangerouslySetInnerHTML={{ __html: post.html }}
           itemProp="articleBody"
         />
-        <hr />
+        <hr  />
       </article>
+
       <nav className="blog-post-nav">
         <ul
           style={{
