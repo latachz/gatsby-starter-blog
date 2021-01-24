@@ -5,9 +5,9 @@ backend:
 media_folder: "images/uploads"
 
 collections:
-  - name: "blog"
-    label: "Blog"
-    folder: "content/blog"
+  - name: "songs"
+    label: "Songs"
+    folder: "content/songs"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
     fields:
