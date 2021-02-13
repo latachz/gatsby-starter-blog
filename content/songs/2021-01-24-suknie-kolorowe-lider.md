@@ -15,7 +15,7 @@ Ten wielki bal na sto par / **C F G**
 
 Chcę prosić cię, o jeden taniec jeden walc / **F G Em Am**
 
-Proszę cię uśmiechnij do mnie się / **F** **G F Dm Dm7**
+Proszę cię uśmiechnij do mnie się / F dm dm7 G C**F** **G F Dm Dm7**
 
 </br>
 
